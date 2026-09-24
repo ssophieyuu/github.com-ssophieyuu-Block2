@@ -12,8 +12,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "DECA Category Report",
-  description: "DECA category review dashboard for sorting applicant bios into business categories.",
+  title: "VCS Student Center",
+  description: "A polished student planning and advising website for tracking goals, growth, and outcomes.",
 };
 
 export default function RootLayout({ children }) {

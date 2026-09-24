@@ -186,7 +186,7 @@ async function ensureFolderStructure() {
   }
 }
 
-function uniqueDestinationPath(destinationDir, filename) {
+async function uniqueDestinationPath(destinationDir, filename) {
   const extension = path.extname(filename);
   const baseName = path.basename(filename, extension);
   let candidate = path.join(destinationDir, filename);
@@ -194,7 +194,7 @@ function uniqueDestinationPath(destinationDir, filename) {
 
   while (true) {
     try {
-      fs.access(candidate);
+      await fs.access(candidate);
       candidate = path.join(destinationDir, `${baseName}_${index}${extension}`);
       index += 1;
     } catch {
@@ -274,11 +274,33 @@ async function buildReport() {
 }
 
 export async function GET() {
-  const report = await buildReport();
-  return Response.json(report);
+  try {
+    const report = await buildReport();
+    return Response.json(report);
+  } catch (error) {
+    console.error('DECA report failed:', error);
+    return Response.json(
+      {
+        error: 'Failed to generate DECA report.',
+        details: error instanceof Error ? error.message : String(error),
+      },
+      { status: 500 }
+    );
+  }
 }
 
 export async function POST() {
-  const report = await buildReport();
-  return Response.json(report);
+  try {
+    const report = await buildReport();
+    return Response.json(report);
+  } catch (error) {
+    console.error('DECA report failed:', error);
+    return Response.json(
+      {
+        error: 'Failed to generate DECA report.',
+        details: error instanceof Error ? error.message : String(error),
+      },
+      { status: 500 }
+    );
+  }
 }
